@@ -4,9 +4,11 @@ from transformers import AutoTokenizer
 model_list = [    
     # "simplescaling/s1-32B",
     # "Qwen/Qwen2.5-0.5B-Instruct",
-    "./ckpts/s1_20250208_232518"
+    # "./ckpts/s1_20250208_232518-qwen2.5-0.5b-epoch-5"
+    # "./ckpts/s1_20250209_014953-epoch-10"
+    "./ckpts/s1_20250209_120432"
 ]
-log_file = "s1-1k.txt"
+log_file = "aime_epoch-10_topP-0.8_temp-0.7.txt"
 for i in range(len(model_list)):
     model = LLM(
         model_list[i],
@@ -22,14 +24,17 @@ for i in range(len(model_list)):
         min_tokens=0,
         stop_token_ids=stop_token_ids,
         skip_special_tokens=False,
-        temperature=0.0,
+        temperature=0.7,
+        top_p=0.8,
+        repetition_penalty=1.1
     )
 
     # For the exact raspberry sample in the paper, change
     # model to `qfq/1k_qr_bt_dm_po_steps` (an earlier version of s1)
     # prompt to `How many r in raspberry?`
     prompts = [
-        "How many r in raspberry",
+        # "How many r in raspberry",
+        "Alice chooses a set $A$ of positive integers.     Then Bob lists all finite nonempty sets $B$ of positive integers with the property that the maximum element of $B$ belongs to $A$ . Bob's list has 2024 sets. Find the sum of the elements of A."
     ]
 
     for i, p in enumerate(prompts):
